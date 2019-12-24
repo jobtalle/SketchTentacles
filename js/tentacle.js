@@ -18,7 +18,8 @@ const Tentacle = function() {
         const s = 0.2;
 
         for (let i = 0; i < l; ++i) {
-            const f = i / l;
+            const f = Math.pow(i / l, 1);
+
             angle += (cubicNoiseSample1(noise, i * s + shift) - 0.5) * 5 * f;
 
             const d = 12;
