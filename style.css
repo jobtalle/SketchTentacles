@@ -1,3 +1,9 @@
+:root {
+    --color-background: #333333;
+    --color-arm: rgb(165, 182, 203);
+    --color-particle: rgba(90, 128, 187, 0.04);
+}
+
 body {
     margin: 0;
 }
@@ -6,7 +12,7 @@ body {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    background-color: #333;
+    background-color: var(--color-background);
 }
 
 #wrapper #renderer {

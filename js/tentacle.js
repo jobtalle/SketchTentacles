@@ -1,20 +1,25 @@
-const Tentacle = function(length, onset, direction) {
+const Tentacle = function(xOrigin, yOrigin, length, precision, direction) {
+    const steps = Math.ceil(length / precision);
     const noise = cubicNoiseConfig(Math.random());
-    const points = new Array(length << 2);
+    const points = new Array(steps << 2);
     let shift = 0;
 
-    const updatePoints = () => {
-        let x = 0;
-        let y = 0;
+    const getRadius = factor => {
+        return (1 - factor) * 12;
+    };
 
-        for (let i = 0; i < length; ++i) {
+    const updatePoints = () => {
+        const d = length / steps;
+        let x = xOrigin;
+        let y = yOrigin;
+
+        for (let i = 1; i < steps; ++i) {
             const index = i << 2;
-            const factor = i / (length - 1);
-            const angle = (cubicNoiseSample1(noise, i * 0.2 + 10000 - shift) - 0.5) * 8 * factor +
-                Math.pow(1 - factor, 5) * direction;
+            const factor = i / (steps - 1);
+            const angle = (cubicNoiseSample1(noise, factor * 12 + 10000 - shift) - 0.5) * 8 * factor +
+                Math.pow(1 - factor, 4) * direction;
             const dx = Math.cos(angle);
             const dy = Math.sin(angle);
-            const d = 16;
 
             x += dx * d;
             y += dy * d;
@@ -34,23 +39,35 @@ const Tentacle = function(length, onset, direction) {
 
     this.draw = context => {
         context.beginPath();
+        context.moveTo(points[(steps << 2) - 4], points[(steps << 2) - 3]);
 
-        if (onset === 0)
-            context.moveTo(0, 0);
-        else
-            context.moveTo(points[(onset - 1) << 2], points[((onset - 1) << 2) + 1]);
-
-        for (let i = onset; i < length; ++i) {
+        for (let i = steps - 1; i-- > 0;) {
             const index = i << 2;
+            const radius = getRadius(i / (steps - 1));
 
             context.lineTo(
-                points[index],
-                points[index + 1]);
+                points[index] + points[index + 2] * radius,
+                points[index + 1] + points[index + 3] * radius);
         }
 
-        context.strokeStyle = Tentacle.COLOR;
-        context.stroke();
+        for (let i = 0; i < steps - 1; ++i) {
+            const index = i << 2;
+            const radius = getRadius(i / (steps - 1));
+
+            context.lineTo(
+                points[index] - points[index + 2] * radius,
+                points[index + 1] - points[index + 3] * radius);
+        }
+
+        context.closePath();
+        context.fillStyle = Tentacle.COLOR;
+        context.fill();
     };
+
+    points[0] = xOrigin;
+    points[1] = yOrigin;
+    points[2] = -Math.sin(direction);
+    points[3] = Math.cos(direction);
 };
 
-Tentacle.COLOR = "white";
+Tentacle.COLOR = StyleUtils.getVariable("--color-arm");
