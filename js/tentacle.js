@@ -22,7 +22,7 @@ const Tentacle = function(xOrigin, yOrigin, length, precision, direction, direct
             const index = i << 2;
             const factor = i / (steps - 1);
             const directionFactor = Math.pow(1 - factor, Tentacle.DIRECTION_POWER);
-            const angle = (cubicNoiseSample1(noise, factor * 12 + 10000 - shift) - 0.5) * 8 * factor +
+            const angle = (cubicNoiseSample1(noise, (1 - factor) * Tentacle.NOISE_FREQUENCY + shift) - 0.5) * Tentacle.NOISE_SCALE * factor +
                 directionFactor * direction + (1 - directionFactor) * directionNeutral;
             const dx = Math.cos(angle);
             const dy = Math.sin(angle);
@@ -107,6 +107,8 @@ const Tentacle = function(xOrigin, yOrigin, length, precision, direction, direct
     points[3] = Math.cos(direction);
 };
 
+Tentacle.NOISE_FREQUENCY = 12;
+Tentacle.NOISE_SCALE = 8;
 Tentacle.BLINK_CHANCE = 0.2;
 Tentacle.BLINK_RADIUS = 0.1;
 Tentacle.PULSE_SPEED = 1;
