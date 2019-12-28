@@ -1,5 +1,5 @@
 const Tentacle = function(xOrigin, yOrigin, length, precision, direction, directionNeutral) {
-    const steps = Math.ceil(length / precision);
+    const steps = Math.max(Tentacle.STEPS_MIN, Math.ceil(length / precision));
     const noise = cubicNoiseConfig(Math.random());
     const points = new Array(steps << 2);
     let shift = 0;
@@ -71,6 +71,7 @@ const Tentacle = function(xOrigin, yOrigin, length, precision, direction, direct
     points[3] = Math.cos(direction);
 };
 
+Tentacle.STEPS_MIN = 70;
 Tentacle.RADIUS = 0.018;
 Tentacle.DIRECTION_POWER = 2;
 Tentacle.COLOR = StyleUtils.getVariable("--color-arm");

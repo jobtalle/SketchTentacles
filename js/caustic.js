@@ -1,11 +1,12 @@
 const Caustic = function(x, width, height, timeFactor = 1) {
     const thickness = width * (Caustic.THICKNESS_MIN + (Caustic.THICKNESS_MAX - Caustic.THICKNESS_MIN) * Math.random());
     const depth = Caustic.DEPTH * height;
+    const xSpeed = Caustic.XSPEED_MIN + (Caustic.XSPEED_MAX - Caustic.XSPEED_MIN) * Math.random();
     const speed = Caustic.SPEED_MIN + (Caustic.SPEED_MAX - Caustic.SPEED_MIN) * Math.random();
     let life = timeFactor;
 
     this.update = timeStep => {
-        x += Caustic.XSPEED * timeStep;
+        x += xSpeed * timeStep;
 
         if ((life -= timeStep / speed) < 0) {
             life = 1;
@@ -30,9 +31,10 @@ const Caustic = function(x, width, height, timeFactor = 1) {
     };
 };
 
-Caustic.XSPEED = 12;
-Caustic.SPEED_MIN = 2;
-Caustic.SPEED_MAX = 6;
+Caustic.XSPEED_MIN = 8;
+Caustic.XSPEED_MAX = 22;
+Caustic.SPEED_MIN = 3;
+Caustic.SPEED_MAX = 9;
 Caustic.ALPHA = 0.3;
 Caustic.THICKNESS_MIN = 0.01;
 Caustic.THICKNESS_MAX = 0.06;
