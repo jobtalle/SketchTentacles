@@ -23,12 +23,14 @@ const Tentacles = function(width, height) {
 
     for (let i = 0; i < tentacles.length; ++i)
         tentacles[i] = new Tentacle(
-            Math.round(canvas.width * 0.3),
-            Math.round(canvas.height * 0.2),
+            Math.round(canvas.width * Tentacles.X),
+            Math.round(canvas.height * Tentacles.Y),
             width * 0.6,
             15,
             Math.PI * (i / (tentacles.length - 1)),
             0);
 };
 
-Tentacles.ARMS = 7;
+Tentacles.ARMS = 8;
+Tentacles.X = 0.3;
+Tentacles.Y = 0.22;
