@@ -1,7 +1,5 @@
 :root {
-    --color-background: #333333;
     --color-arm: rgb(165, 182, 203);
-    --color-particle: rgba(90, 128, 187, 0.04);
 }
 
 body {
@@ -12,7 +10,7 @@ body {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    background-color: var(--color-background);
+    background: linear-gradient(to bottom, #5d89d9, #0f141c);
 }
 
 #wrapper #renderer {

@@ -1,11 +1,11 @@
-const Tentacle = function(xOrigin, yOrigin, length, precision, direction) {
+const Tentacle = function(xOrigin, yOrigin, length, precision, direction, directionNeutral) {
     const steps = Math.ceil(length / precision);
     const noise = cubicNoiseConfig(Math.random());
     const points = new Array(steps << 2);
     let shift = 0;
 
     const getRadius = factor => {
-        return (1 - factor) * 12;
+        return (1 - factor) * length * Tentacle.RADIUS;
     };
 
     const updatePoints = () => {
@@ -16,8 +16,9 @@ const Tentacle = function(xOrigin, yOrigin, length, precision, direction) {
         for (let i = 1; i < steps; ++i) {
             const index = i << 2;
             const factor = i / (steps - 1);
+            const directionFactor = Math.pow(1 - factor, Tentacle.DIRECTION_POWER);
             const angle = (cubicNoiseSample1(noise, factor * 12 + 10000 - shift) - 0.5) * 8 * factor +
-                Math.pow(1 - factor, 4) * direction;
+                directionFactor * direction + (1 - directionFactor) * directionNeutral;
             const dx = Math.cos(angle);
             const dy = Math.sin(angle);
 
@@ -70,4 +71,6 @@ const Tentacle = function(xOrigin, yOrigin, length, precision, direction) {
     points[3] = Math.cos(direction);
 };
 
+Tentacle.RADIUS = 0.018;
+Tentacle.DIRECTION_POWER = 2;
 Tentacle.COLOR = StyleUtils.getVariable("--color-arm");
