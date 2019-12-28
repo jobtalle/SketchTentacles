@@ -1,5 +1,6 @@
 :root {
-    --color-arm: rgb(165, 182, 203);
+    --color-arm: rgb(54, 78, 147);
+    --color-pulse: #f7ffbe;
 }
 
 body {
