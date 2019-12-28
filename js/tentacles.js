@@ -1,11 +1,8 @@
 const Tentacles = function(width, height) {
     const tentacles = new Array(Tentacles.ARMS);
     const caustics = new Caustics(width, height);
-    //const particles = new Particles(width, height);
 
     this.update = timeStep => {
-        //particles.update(timeStep);
-
         for (const tentacle of tentacles)
             tentacle.update(timeStep);
 
@@ -13,8 +10,6 @@ const Tentacles = function(width, height) {
     };
 
     this.draw = context => {
-        //particles.draw(context);
-
         for (const tentacle of tentacles)
             tentacle.draw(context);
 
