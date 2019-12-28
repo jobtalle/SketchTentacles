@@ -5,6 +5,9 @@ const Tentacle = function(xOrigin, yOrigin, length, precision, direction, direct
     let shift = 0;
 
     const getRadius = factor => {
+        if (factor > Tentacle.TAIL_START)
+            return (factor - Tentacle.TAIL_START) / (1 - Tentacle.TAIL_START) * length * Tentacle.RADIUS_TAIL;
+
         return (1 - factor) * length * Tentacle.RADIUS;
     };
 
@@ -73,5 +76,7 @@ const Tentacle = function(xOrigin, yOrigin, length, precision, direction, direct
 
 Tentacle.STEPS_MIN = 70;
 Tentacle.RADIUS = 0.018;
+Tentacle.RADIUS_TAIL = 0.01;
+Tentacle.TAIL_START = 0.92;
 Tentacle.DIRECTION_POWER = 2;
 Tentacle.COLOR = StyleUtils.getVariable("--color-arm");

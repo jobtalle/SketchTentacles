@@ -11,8 +11,6 @@ const Caustics = function(width, height) {
             caustic.draw(context);
     };
 
-    for (let i = 0; i < width * Caustics.PER_PIXEL; ++i)
+    for (let i = 0; i < 1 / Caustic.THICKNESS_MAX; ++i)
         caustics.push(new Caustic(Math.random() * width, width, height, Math.random()));
 };
-
-Caustics.PER_PIXEL = 0.012;
