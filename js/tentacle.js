@@ -47,7 +47,7 @@ const Tentacle = function(xOrigin, yOrigin, length, precision, direction, direct
 
         if ((pulseTime -= timeStep) < 0 && pulseDist >= 1) {
             pulseTime = Tentacle.PULSE_TIME_MIN + (Tentacle.PULSE_TIME_MAX - Tentacle.PULSE_TIME_MIN) * Math.random();
-            pulseDist = 0;
+            pulseDist = Tentacle.PULSE_DIST_INITIAL;
         }
 
         if (pulseDist < 1)
@@ -121,6 +121,7 @@ Tentacle.PULSE_SPEED = 1;
 Tentacle.PULSE_COOLDOWN_POWER = 0.7;
 Tentacle.PULSE_TIME_MIN = 2;
 Tentacle.PULSE_TIME_MAX = 16;
+Tentacle.PULSE_DIST_INITIAL = 0.05;
 Tentacle.STEPS_MIN = 70;
 Tentacle.RADIUS = 0.018;
 Tentacle.RADIUS_TAIL = 0.01;
