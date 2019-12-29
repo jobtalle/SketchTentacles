@@ -2,15 +2,18 @@ const Tentacle = function(xOrigin, yOrigin, length, precision, direction, direct
     const steps = Math.max(Tentacle.STEPS_MIN, Math.ceil(length / precision));
     const noise = cubicNoiseConfig(Math.random());
     const points = new Array(steps << 2);
+    const radii = [];
     let shift = 0;
     let pulseTime = Tentacle.PULSE_TIME_MAX * Math.random();
     let pulseDist = 1;
 
     const getRadius = factor => {
-        if (factor > Tentacle.TAIL_START)
-            return (factor - Tentacle.TAIL_START) / (1 - Tentacle.TAIL_START) * length * Tentacle.RADIUS_TAIL;
+        const radius = (1 - factor) * length * Tentacle.RADIUS;
 
-        return (1 - factor) * length * Tentacle.RADIUS;
+        if (factor > Tentacle.TAIL_START)
+            return Math.max(radius, (factor - Tentacle.TAIL_START) / (1 - Tentacle.TAIL_START) * length * Tentacle.RADIUS_TAIL);
+
+        return radius;
     };
 
     const updatePoints = () => {
@@ -81,7 +84,7 @@ const Tentacle = function(xOrigin, yOrigin, length, precision, direction, direct
 
         for (let i = steps - 1; i-- > 0;) {
             const index = i << 2;
-            const radius = getRadius(i / (steps - 1));
+            const radius = radii[i];
 
             context.lineTo(
                 points[index] + points[index + 2] * radius,
@@ -105,6 +108,9 @@ const Tentacle = function(xOrigin, yOrigin, length, precision, direction, direct
     points[1] = yOrigin;
     points[2] = -Math.sin(direction);
     points[3] = Math.cos(direction);
+
+    for (let i = 0; i < steps; ++i)
+        radii.push(getRadius(i / (steps - 1)));
 };
 
 Tentacle.NOISE_FREQUENCY = 12;
@@ -112,7 +118,7 @@ Tentacle.NOISE_SCALE = 8;
 Tentacle.BLINK_CHANCE = 0.2;
 Tentacle.BLINK_RADIUS = 0.1;
 Tentacle.PULSE_SPEED = 1;
-Tentacle.PULSE_COOLDOWN_POWER = 1.3;
+Tentacle.PULSE_COOLDOWN_POWER = 0.7;
 Tentacle.PULSE_TIME_MIN = 2;
 Tentacle.PULSE_TIME_MAX = 16;
 Tentacle.STEPS_MIN = 70;
