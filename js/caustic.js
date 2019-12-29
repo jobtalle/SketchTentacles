@@ -19,7 +19,7 @@ const Caustic = function(x, width, height, timeFactor = 1) {
         const gradient = context.createLinearGradient(0, 0, 0, depth);
 
         gradient.addColorStop(0, "rgba(161, 201, 255, " + alpha + ")");
-        gradient.addColorStop(1, "rgba(156, 217, 255, 0)");
+        gradient.addColorStop(Math.pow(0.5 - Math.cos(life * Math.PI * 2) * 0.5, Caustic.POWER), "rgba(156, 217, 255, 0)");
 
         context.beginPath();
         context.moveTo(x, 0);
@@ -40,3 +40,4 @@ Caustic.THICKNESS_MIN = 0.01;
 Caustic.THICKNESS_MAX = 0.06;
 Caustic.DEPTH = 0.8;
 Caustic.SHEAR = 0.2;
+Caustic.POWER = 0.5;
