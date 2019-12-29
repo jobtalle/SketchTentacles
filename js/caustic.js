@@ -10,7 +10,7 @@ const Caustic = function(x, width, height, timeFactor = 1) {
 
         if ((life -= timeStep / speed) < 0) {
             life = 1;
-            x = Math.random() * width;
+            x = Math.random() * (width + thickness) - thickness;
         }
     };
 
